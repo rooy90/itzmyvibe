@@ -4,81 +4,362 @@
   <meta charset="UTF-8">
   <title>ItzMyVibe – Sets</title>
   <style>
+    :root {
+      --bg: #050514;
+      --bg-card: #0b0b1f;
+      --accent: #8b5cff;
+      --accent-soft: #3b2a80;
+      --text: #ffffff;
+      --muted: #a3a7d9;
+    }
+
     body {
       margin: 0;
-      background: #0a0a12;
-      font-family: Arial, sans-serif;
-      color: #fff;
+      font-family: system-ui, sans-serif;
+      background: radial-gradient(circle at top, #151533 0, #050514 40%, #020208 100%);
+      color: var(--text);
     }
+
     header {
       padding: 20px;
-      background: #111;
-      border-bottom: 1px solid #222;
       text-align: center;
-      font-size: 22px;
-      font-weight: bold;
-      letter-spacing: 2px;
-      color: #9f7fff;
+      border-bottom: 1px solid #26264a;
+      background: linear-gradient(to right, #050514cc, #0b0b1fcc);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
-    .track {
-      max-width: 900px;
-      margin: 30px auto;
-      background: #14141f;
-      padding: 20px;
-      border-radius: 10px;
+    .logo {
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    /* PLAYER GLOBAL */
+    .global-player {
+      background: #0b0b1f;
+      border-radius: 12px;
+      padding: 14px 18px;
+      border: 1px solid #26264a;
       display: flex;
-      gap: 20px;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+      position: sticky;
+      top: 72px;
+      z-index: 5;
     }
-    .track img {
+    .gp-info { flex: 1; }
+    .gp-title { font-size: 13px; font-weight: 600; }
+    .gp-meta { font-size: 11px; color: var(--muted); }
+
+    .gp-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .gp-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      border: none;
+      background: var(--accent-soft);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .gp-btn-main {
+      width: 36px;
+      height: 36px;
+      background: var(--accent);
+      font-size: 16px;
+    }
+
+    .gp-progress {
       width: 140px;
-      height: 140px;
-      object-fit: cover;
-      border-radius: 8px;
+      height: 4px;
+      border-radius: 999px;
+      background: #1b1b30;
+      overflow: hidden;
     }
+    .gp-progress-inner {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(to right, #8b5cff, #ff7bff);
+      transition: width 0.1s linear;
+    }
+
+    /* TRACK CARDS */
+    .track {
+      background: #0b0b1f;
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid #26264a;
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .track::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at top left, #8b5cff22, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+    .track:hover::before { opacity: 1; }
+
+    .cover {
+      width: 120px;
+      height: 120px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+    .cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.02);
+    }
+
     .info {
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
-    .title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 6px;
+    .title { font-size: 15px; font-weight: 600; }
+    .meta { font-size: 11px; color: var(--muted); }
+
+    /* WAVEFORM VISUAL */
+    .wave {
+      height: 40px;
+      margin-top: 8px;
+      border-radius: 6px;
+      background: linear-gradient(
+        to right,
+        #26264a 0%,
+        #8b5cff 20%,
+        #ff7bff 40%,
+        #8b5cff 60%,
+        #26264a 100%
+      );
+      position: relative;
+      overflow: hidden;
     }
-    .meta {
-      font-size: 12px;
-      color: #bbb;
-      margin-bottom: 10px;
+    .wave::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        to right,
+        rgba(0,0,0,0.4) 0,
+        rgba(0,0,0,0.4) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+      mix-blend-mode: soft-light;
+      animation: waveMove 8s linear infinite;
     }
-    audio {
-      width: 100%;
+    @keyframes waveMove {
+      from { transform: translateX(0); }
+      to { transform: translateX(-40px); }
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       margin-top: 10px;
+      font-size: 11px;
+    }
+    .btn-small {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid #26264a;
+      background: #050514;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 11px;
+    }
+    .btn-download {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .badge {
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #1b1b30;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 640px) {
+      .track { flex-direction: column; }
+      .cover { width: 100%; height: 180px; }
     }
   </style>
 </head>
 <body>
 
-<header>ITZMYVIBE – DJ SETS</header>
+<header>
+  <div class="logo">ITZMYVIBE</div>
+  <div class="subtitle">Personal cloud · DJ sets · Azul‑violeta vibe</div>
+</header>
 
-<div class="track">
-  <img src="img/set1.jpg" alt="Cover Set 1">
-  <div class="info">
-    <div class="title">Tribal Night Session</div>
-    <div class="meta">120 min · Azul violeta vibe</div>
-    <audio controls>
-      <source src="audio/set1.mp3" type="audio/mpeg">
-    </audio>
+<div class="container">
+
+  <!-- PLAYER GLOBAL -->
+  <div class="global-player">
+    <div class="gp-info">
+      <div class="gp-title" id="gp-title">Nada reproduciéndose</div>
+      <div class="gp-meta" id="gp-meta">Selecciona un set para empezar</div>
+    </div>
+    <div class="gp-controls">
+      <button class="gp-btn" onclick="prevTrack()">⏮</button>
+      <button class="gp-btn gp-btn-main" id="gp-play" onclick="togglePlay()">▶</button>
+      <button class="gp-btn" onclick="nextTrack()">⏭</button>
+      <div class="gp-progress">
+        <div class="gp-progress-inner" id="gp-progress-inner"></div>
+      </div>
+    </div>
   </div>
+
+  <!-- SET 1 -->
+  <div class="track" data-src="audio/set1.mp3" data-title="Tribal Night Session" data-meta="120 min · Azul violeta · Live">
+    <div class="cover">
+      <img src="img/set1.jpg" alt="Cover Set 1">
+    </div>
+    <div class="info">
+      <div class="title">Tribal Night Session</div>
+      <div class="meta">120 min · Azul violeta · Live @ Warehouse</div>
+      <div class="wave"></div>
+      <div class="actions">
+        <span class="badge">Tribal · Percussive · Groove</span>
+        <button class="btn-small" onclick="playThis(this)">Play</button>
+        <a class="btn-small btn-download" href="audio/set1.mp3" download>Descargar</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SET 2 -->
+  <div class="track" data-src="audio/set2.mp3" data-title="Tech House Warehouse" data-meta="90 min · Deep & Groovy">
+    <div class="cover">
+      <img src="img/set2.jpg" alt="Cover Set 2">
+    </div>
+    <div class="info">
+      <div class="title">Tech House Warehouse</div>
+      <div class="meta">90 min · Deep & Groovy · Night Session</div>
+      <div class="wave"></div>
+      <div class="actions">
+        <span class="badge">Tech House · Dark · Club</span>
+        <button class="btn-small" onclick="playThis(this)">Play</button>
+        <a class="btn-small btn-download" href="audio/set2.mp3" download>Descargar</a>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-<div class="track">
-  <img src="img/set2.jpg" alt="Cover Set 2">
-  <div class="info">
-    <div class="title">Warehouse Tech House</div>
-    <div class="meta">90 min · Deep & Groovy</div>
-    <audio controls>
-      <source src="audio/set2.mp3" type="audio/mpeg">
-    </audio>
-  </div>
-</div>
+<audio id="global-audio"></audio>
+
+<script>
+  const audio = document.getElementById("global-audio");
+  const gpTitle = document.getElementById("gp-title");
+  const gpMeta = document.getElementById("gp-meta");
+  const gpPlayBtn = document.getElementById("gp-play");
+  const gpProgressInner = document.getElementById("gp-progress-inner");
+
+  let playlist = [];
+  let currentIndex = -1;
+
+  function initPlaylist() {
+    const tracks = document.querySelectorAll(".track");
+    playlist = Array.from(tracks).map(t => ({
+      src: t.getAttribute("data-src"),
+      title: t.getAttribute("data-title"),
+      meta: t.getAttribute("data-meta")
+    }));
+  }
+
+  function loadTrack(index) {
+    if (index < 0 || index >= playlist.length) return;
+    currentIndex = index;
+    const track = playlist[index];
+    audio.src = track.src;
+    gpTitle.textContent = track.title;
+    gpMeta.textContent = track.meta;
+    audio.play();
+    gpPlayBtn.textContent = "⏸";
+  }
+
+  function playThis(btn) {
+    const trackEl = btn.closest(".track");
+    const tracks = Array.from(document.querySelectorAll(".track"));
+    const index = tracks.indexOf(trackEl);
+    initPlaylist();
+    loadTrack(index);
+  }
+
+  function togglePlay() {
+    if (!audio.src) return;
+    if (audio.paused) {
+      audio.play();
+      gpPlayBtn.textContent = "⏸";
+    } else {
+      audio.pause();
+      gpPlayBtn.textContent = "▶";
+    }
+  }
+
+  function nextTrack() {
+    if (!playlist.length) return;
+    let next = currentIndex + 1;
+    if (next >= playlist.length) next = 0;
+    loadTrack(next);
+  }
+
+  function prevTrack() {
+    if (!playlist.length) return;
+    let prev = currentIndex - 1;
+    if (prev < 0) prev = playlist.length - 1;
+    loadTrack(prev);
+  }
+
+  audio.addEventListener("timeupdate", () => {
+    if (!audio.duration) return;
+    const percent = (audio.currentTime / audio.duration) * 100;
+    gpProgressInner.style.width = percent + "%";
+  });
+
+  audio.addEventListener("ended", () => {
+    nextTrack();
+  });
+
+  window.addEventListener("DOMContentLoaded", initPlaylist);
+</script>
 
 </body>
 </html>
