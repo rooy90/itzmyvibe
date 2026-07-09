@@ -2,16 +2,17 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>ItzMyVibe – Sets</title>
+  <title>ItzMyVibe – Auto Sets</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <style>
     :root {
       --bg: #050514;
-      --bg-card: #0b0b1f;
+      --card: #0b0b1f;
       --accent: #8b5cff;
       --accent-soft: #3b2a80;
       --text: #ffffff;
       --muted: #a3a7d9;
-      --danger: #ff5555;
     }
 
     * { box-sizing: border-box; }
@@ -19,241 +20,165 @@
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at top, #151533 0, #050514 40%, #020208 100%);
+      background: var(--bg);
       color: var(--text);
-    }
-
-    /* Pantalla de contraseña */
-    #lock-screen {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-    }
-    .lock-box {
-      background: #0b0b1f;
-      border-radius: 12px;
-      padding: 24px 28px;
-      max-width: 360px;
-      width: 90%;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-      border: 1px solid #26264a;
-      text-align: center;
-      animation: fadeIn 0.4s ease-out;
-    }
-    .lock-title {
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 10px;
-    }
-    .lock-sub {
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 18px;
-    }
-    .lock-input {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid #26264a;
-      background: #050514;
-      color: var(--text);
-      outline: none;
-      font-size: 13px;
-      margin-bottom: 14px;
-    }
-    .lock-btn {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: none;
-      background: var(--accent);
-      color: #fff;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-    .lock-error {
-      margin-top: 10px;
-      font-size: 12px;
-      color: var(--danger);
-      min-height: 16px;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     header {
-      padding: 20px;
-      text-align: center;
+      padding: 14px 16px;
+      background: #0b0b1f;
       border-bottom: 1px solid #26264a;
-      backdrop-filter: blur(10px);
-      background: linear-gradient(to right, #050514cc, #0b0b1fcc);
       position: sticky;
       top: 0;
       z-index: 10;
     }
     .logo {
       font-weight: 700;
-      font-size: 18px;
+      font-size: 16px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--accent);
     }
     .subtitle {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--muted);
-      margin-top: 6px;
+      margin-top: 4px;
     }
 
     .container {
       max-width: 960px;
       margin: 0 auto;
-      padding: 24px 16px 40px;
+      padding: 12px 10px 20px;
     }
 
-    /* Player global (más pro) */
-    .global-player {
-      background: #0b0b1f;
-      border-radius: 12px;
-      padding: 14px 18px;
-      border: 1px solid #26264a;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 24px;
-      position: sticky;
-      top: 72px;
-      z-index: 5;
-    }
-    .gp-info {
-      flex: 1;
-    }
-    .gp-title {
+    /* Lista de shows */
+    .list-title {
       font-size: 13px;
-      font-weight: 600;
-    }
-    .gp-meta {
-      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
       color: var(--muted);
-    }
-    .gp-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .gp-btn {
-      width: 30px;
-      height: 30px;
-      border-radius: 999px;
-      border: none;
-      background: var(--accent-soft);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    .gp-btn-main {
-      width: 36px;
-      height: 36px;
-      background: var(--accent);
-      font-size: 16px;
-    }
-    .gp-progress {
-      width: 140px;
-      height: 4px;
-      border-radius: 999px;
-      background: #1b1b30;
-      overflow: hidden;
-    }
-    .gp-progress-inner {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(to right, #8b5cff, #ff7bff);
-      transition: width 0.1s linear;
+      margin: 8px 0 10px;
     }
 
-    /* Cards de sets */
-    .track {
-      background: #0b0b1f;
-      border-radius: 12px;
-      padding: 16px;
-      border: 1px solid #26264a;
+    .show-card {
       display: flex;
-      gap: 16px;
-      margin-bottom: 16px;
-      position: relative;
-      overflow: hidden;
-    }
-    .track::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background: radial-gradient(circle at top left, #8b5cff22, transparent 60%);
-      opacity: 0;
-      transition: opacity 0.3s ease-out;
-    }
-    .track:hover::before {
-      opacity: 1;
-    }
-
-    .cover {
-      width: 120px;
-      height: 120px;
+      gap: 10px;
+      padding: 10px;
       border-radius: 10px;
+      background: var(--card);
+      border: 1px solid #26264a;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+    .show-cover {
+      width: 70px;
+      height: 70px;
+      border-radius: 8px;
       overflow: hidden;
       flex-shrink: 0;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      background: #111;
     }
-    .cover img {
+    .show-cover img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: scale(1.02);
     }
-
-    .info {
+    .show-info {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      justify-content: center;
     }
-    .title {
+    .show-title {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .show-meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Vista player */
+    .player {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--card);
+      border: 1px solid #26264a;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .player-top {
+      display: flex;
+      gap: 12px;
+    }
+    .player-cover {
+      width: 110px;
+      height: 110px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: #111;
+    }
+    .player-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .player-info {
+      flex: 1;
+    }
+    .player-title {
       font-size: 15px;
       font-weight: 600;
     }
-    .meta {
+    .player-meta {
       font-size: 11px;
       color: var(--muted);
+      margin-top: 4px;
     }
 
-    /* Waveform visual fake */
+    .player-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .btn {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid #26264a;
+      background: #050514;
+      color: var(--muted);
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .btn-main {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    audio {
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    /* Waveform fake */
     .wave {
       height: 40px;
-      margin-top: 8px;
       border-radius: 6px;
       background: linear-gradient(
         to right,
         #26264a 0%,
-        #8b5cff 20%,
-        #ff7bff 40%,
-        #8b5cff 60%,
+        #8b5cff 30%,
+        #ff7bff 60%,
         #26264a 100%
       );
       position: relative;
       overflow: hidden;
+      margin-top: 8px;
     }
     .wave::after {
       content: "";
@@ -266,7 +191,6 @@
         transparent 1px,
         transparent 4px
       );
-      mix-blend-mode: soft-light;
       animation: waveMove 8s linear infinite;
     }
     @keyframes waveMove {
@@ -274,40 +198,32 @@
       to { transform: translateX(-40px); }
     }
 
-    .actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    /* Tracklist */
+    .tracklist-box {
       margin-top: 10px;
-      font-size: 11px;
     }
-    .btn-small {
-      padding: 6px 10px;
-      border-radius: 999px;
+    .tracklist-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .tracklist-area {
+      width: 100%;
+      min-height: 80px;
+      border-radius: 8px;
       border: 1px solid #26264a;
       background: #050514;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 11px;
-    }
-    .btn-download {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .badge {
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: #1b1b30;
-      font-size: 10px;
-      color: var(--muted);
+      color: var(--text);
+      font-size: 12px;
+      padding: 8px;
+      resize: vertical;
     }
 
     @media (max-width: 640px) {
-      .track {
+      .player-top {
         flex-direction: column;
       }
-      .cover {
+      .player-cover {
         width: 100%;
         height: 180px;
       }
@@ -316,167 +232,152 @@
 </head>
 <body>
 
-<!-- PANTALLA DE CONTRASEÑA -->
-<div id="lock-screen">
-  <div class="lock-box">
-    <div class="lock-title">ITZMYVIBE LOCKED</div>
-    <div class="lock-sub">Introduce tu contraseña para entrar a tus sets.</div>
-    <input id="lock-input" class="lock-input" type="password" placeholder="Contraseña">
-    <button class="lock-btn" onclick="checkPassword()">Entrar</button>
-    <div id="lock-error" class="lock-error"></div>
-  </div>
-</div>
-
 <header>
   <div class="logo">ITZMYVIBE</div>
-  <div class="subtitle">Personal cloud · DJ sets · Azul‑violeta vibe</div>
+  <div class="subtitle">Auto shows · MP3 & AIFF · GitHub</div>
 </header>
 
 <div class="container">
+  <div class="list-title">All shows</div>
+  <div id="show-list"></div>
 
-  <!-- PLAYER GLOBAL MÁS PRO -->
-  <div class="global-player">
-    <div class="gp-info">
-      <div class="gp-title" id="gp-title">Nada reproduciéndose</div>
-      <div class="gp-meta" id="gp-meta">Selecciona un set para empezar</div>
-    </div>
-    <div class="gp-controls">
-      <button class="gp-btn" onclick="prevTrack()">⏮</button>
-      <button class="gp-btn gp-btn-main" id="gp-play" onclick="togglePlay()">▶</button>
-      <button class="gp-btn" onclick="nextTrack()">⏭</button>
-      <div class="gp-progress">
-        <div class="gp-progress-inner" id="gp-progress-inner"></div>
+  <div id="player" class="player" style="display:none;">
+    <div class="player-top">
+      <div class="player-cover">
+        <img id="player-cover" src="" alt="Cover">
+      </div>
+      <div class="player-info">
+        <div class="player-title" id="player-title"></div>
+        <div class="player-meta" id="player-meta"></div>
+        <div class="player-actions">
+          <button class="btn btn-main" onclick="togglePlay()">Play / Pause</button>
+          <button class="btn" onclick="copyLink()">Copiar link</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- LISTA DE SETS -->
-  <div class="track" data-src="audio/set1.mp3" data-title="Tribal Night Session" data-meta="120 min · Azul violeta · Live">
-    <div class="cover">
-      <img src="img/set1.jpg" alt="Cover Set 1">
-    </div>
-    <div class="info">
-      <div class="title">Tribal Night Session</div>
-      <div class="meta">120 min · Azul violeta · Live @ Warehouse</div>
-      <div class="wave"></div>
-      <div class="actions">
-        <span class="badge">Tribal · Percussive · Groove</span>
-        <button class="btn-small" onclick="playThis(this)">Play en player global</button>
-        <a class="btn-small btn-download" href="audio/set1.mp3" download>Descargar</a>
-      </div>
+    <div class="wave"></div>
+
+    <audio id="player-audio" controls>
+      <source id="player-source" src="" type="audio/mpeg">
+    </audio>
+
+    <div class="tracklist-box">
+      <div class="tracklist-label">Tracklist (pega aquí manualmente):</div>
+      <textarea id="tracklist-area" class="tracklist-area" placeholder="01. Artista – Track&#10;02. Artista – Track&#10;..."></textarea>
     </div>
   </div>
-
-  <div class="track" data-src="audio/set2.mp3" data-title="Tech House Warehouse" data-meta="90 min · Deep & Groovy">
-    <div class="cover">
-      <img src="img/set2.jpg" alt="Cover Set 2">
-    </div>
-    <div class="info">
-      <div class="title">Tech House Warehouse</div>
-      <div class="meta">90 min · Deep & Groovy · Night Session</div>
-      <div class="wave"></div>
-      <div class="actions">
-        <span class="badge">Tech House · Dark · Club</span>
-        <button class="btn-small" onclick="playThis(this)">Play en player global</button>
-        <a class="btn-small btn-download" href="audio/set2.mp3" download>Descargar</a>
-      </div>
-    </div>
-  </div>
-
 </div>
 
-<!-- AUDIO OCULTO PARA EL PLAYER GLOBAL -->
-<audio id="global-audio"></audio>
-
 <script>
-  // CONTRASEÑA SIMPLE (CAMBIA ESTE STRING)
-  const PASSWORD = "itzmyvibe";
+  // 🔧 CONFIGURA SOLO ESTO:
+  const GITHUB_USER = "rooy90";      // <-- tu usuario
+  const GITHUB_REPO = "itzmyvibe";  // <-- tu repo
+  const AUDIO_DIR = "audio";        // carpeta de audio en el repo
+  const IMG_DIR = "img";            // carpeta de imágenes en el repo
 
-  function checkPassword() {
-    const input = document.getElementById("lock-input").value;
-    const error = document.getElementById("lock-error");
-    if (input === PASSWORD) {
-      document.getElementById("lock-screen").style.display = "none";
-    } else {
-      error.textContent = "Contraseña incorrecta, mi rey.";
+  const showListEl = document.getElementById("show-list");
+  const playerEl = document.getElementById("player");
+  const playerTitleEl = document.getElementById("player-title");
+  const playerMetaEl = document.getElementById("player-meta");
+  const playerCoverEl = document.getElementById("player-cover");
+  const playerAudioEl = document.getElementById("player-audio");
+  const playerSourceEl = document.getElementById("player-source");
+  const tracklistAreaEl = document.getElementById("tracklist-area");
+
+  let currentShow = null;
+
+  async function fetchShows() {
+    const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${AUDIO_DIR}`;
+    const res = await fetch(url);
+    if (!res.ok) {
+      showListEl.innerHTML = "<div style='font-size:12px;color:#f88;'>No se pudo leer la carpeta de audio.</div>";
+      return;
     }
+    const files = await res.json();
+    const audioFiles = files.filter(f => {
+      return f.type === "file" &&
+        (f.name.toLowerCase().endsWith(".mp3") || f.name.toLowerCase().endsWith(".aiff"));
+    });
+
+    if (!audioFiles.length) {
+      showListEl.innerHTML = "<div style='font-size:12px;color:#a3a7d9;'>No hay sets aún. Sube archivos a la carpeta 'audio'.</div>";
+      return;
+    }
+
+    audioFiles.forEach(file => {
+      const name = file.name;
+      const base = name.replace(/\.(mp3|MP3|aiff|AIFF)$/,"");
+      const displayName = base.replace(/[_\-]/g, " ");
+      const coverUrl = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${IMG_DIR}/${base}.jpg`;
+      const audioUrl = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${AUDIO_DIR}/${name}`;
+
+      const card = document.createElement("div");
+      card.className = "show-card";
+      card.onclick = () => openPlayer({
+        title: displayName,
+        fileName: name,
+        coverUrl,
+        audioUrl
+      });
+
+      const cover = document.createElement("div");
+      cover.className = "show-cover";
+      const img = document.createElement("img");
+      img.src = coverUrl;
+      img.alt = base;
+      cover.appendChild(img);
+
+      const info = document.createElement("div");
+      info.className = "show-info";
+      const titleEl = document.createElement("div");
+      titleEl.className = "show-title";
+      titleEl.textContent = displayName;
+      const metaEl = document.createElement("div");
+      metaEl.className = "show-meta";
+      metaEl.textContent = name.toLowerCase().endsWith(".mp3") ? "MP3 set" : "AIFF set";
+
+      info.appendChild(titleEl);
+      info.appendChild(metaEl);
+
+      card.appendChild(cover);
+      card.appendChild(info);
+      showListEl.appendChild(card);
+    });
   }
 
-  // PLAYER GLOBAL
-  const audio = document.getElementById("global-audio");
-  const gpTitle = document.getElementById("gp-title");
-  const gpMeta = document.getElementById("gp-meta");
-  const gpPlayBtn = document.getElementById("gp-play");
-  const gpProgressInner = document.getElementById("gp-progress-inner");
-
-  let playlist = [];
-  let currentIndex = -1;
-
-  function initPlaylist() {
-    const tracks = document.querySelectorAll(".track");
-    playlist = Array.from(tracks).map(t => ({
-      src: t.getAttribute("data-src"),
-      title: t.getAttribute("data-title"),
-      meta: t.getAttribute("data-meta")
-    }));
-  }
-
-  function loadTrack(index) {
-    if (index < 0 || index >= playlist.length) return;
-    currentIndex = index;
-    const track = playlist[index];
-    audio.src = track.src;
-    gpTitle.textContent = track.title;
-    gpMeta.textContent = track.meta;
-    audio.play();
-    gpPlayBtn.textContent = "⏸";
-  }
-
-  function playThis(btn) {
-    const trackEl = btn.closest(".track");
-    const tracks = Array.from(document.querySelectorAll(".track"));
-    const index = tracks.indexOf(trackEl);
-    initPlaylist();
-    loadTrack(index);
+  function openPlayer(show) {
+    currentShow = show;
+    playerTitleEl.textContent = show.title;
+    playerMetaEl.textContent = show.fileName;
+    playerCoverEl.src = show.coverUrl;
+    playerSourceEl.src = show.audioUrl;
+    playerAudioEl.load();
+    playerEl.style.display = "block";
+    playerAudioEl.play().catch(()=>{});
+    // tracklist se queda manual, no se borra al cambiar
   }
 
   function togglePlay() {
-    if (!audio.src) return;
-    if (audio.paused) {
-      audio.play();
-      gpPlayBtn.textContent = "⏸";
+    if (!playerAudioEl.src) return;
+    if (playerAudioEl.paused) {
+      playerAudioEl.play();
     } else {
-      audio.pause();
-      gpPlayBtn.textContent = "▶";
+      playerAudioEl.pause();
     }
   }
 
-  function nextTrack() {
-    if (!playlist.length) return;
-    let next = currentIndex + 1;
-    if (next >= playlist.length) next = 0;
-    loadTrack(next);
+  function copyLink() {
+    if (!currentShow) return;
+    const url = currentShow.audioUrl;
+    navigator.clipboard.writeText(url).then(()=>{
+      alert("Link copiado al portapapeles.");
+    }).catch(()=>{
+      alert("No se pudo copiar el link.");
+    });
   }
 
-  function prevTrack() {
-    if (!playlist.length) return;
-    let prev = currentIndex - 1;
-    if (prev < 0) prev = playlist.length - 1;
-    loadTrack(prev);
-  }
-
-  audio.addEventListener("timeupdate", () => {
-    if (!audio.duration) return;
-    const percent = (audio.currentTime / audio.duration) * 100;
-    gpProgressInner.style.width = percent + "%";
-  });
-
-  audio.addEventListener("ended", () => {
-    nextTrack();
-  });
-
-  // Inicializa playlist al cargar
-  window.addEventListener("DOMContentLoaded", initPlaylist);
+  fetchShows();
 </script>
 
 </body>
